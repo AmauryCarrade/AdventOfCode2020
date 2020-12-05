@@ -6,9 +6,10 @@ import scala.collection.immutable.HashMap
 
 object Day04 extends Day(4) {
   val sep = raw"[ \n]+".r
+
   val passports = (lines :+ "")
     .map(sep split _)
-    .foldLeft((Seq[HashMap[String, String]](), HashMap[String, String]())) {
+    .foldLeft((Seq[Map[String, String]](), Map[String, String]())) {
       case ((passports, current), line) => if (line.length == 1 && line.head.isEmpty) {
           (passports :+ current, HashMap())
         } else {
@@ -16,7 +17,7 @@ object Day04 extends Day(4) {
         }
     }._1.toSeq
 
-  private def checkPassportFields(passport: HashMap[String, String]) = passport.size match {
+  private def checkPassportFields(passport: Map[String, String]) = passport.size match {
     case 8 => true
     case 7 => !passport.contains("cid")
     case _ => false
@@ -24,7 +25,7 @@ object Day04 extends Day(4) {
 
   val valuesCheck = raw"byr,(\d{4})(?:;cid,\d+)?;ecl,(?:amb|blu|brn|gry|grn|hzl|oth);eyr,(\d{4});hcl,#[a-f0-9]{6};hgt,(\d{2,3})(in|cm);iyr,(\d{4});pid,\d{9}".r
 
-  private def checkPassportValues(passport: HashMap[String, String]) = {
+  private def checkPassportValues(passport: Map[String, String]) = {
      passport.toSeq.sortBy(_._1).map(s => s._1 + "," + s._2).mkString(";") match {
        case valuesCheck(byr, eyr, hgt, hgt_unit, iyr) => (
          (1920 to 2002 contains byr.toInt)
