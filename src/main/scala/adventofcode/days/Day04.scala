@@ -11,7 +11,7 @@ object Day04 extends Day(4) {
     .map(sep split _)
     .foldLeft((Seq[Map[String, String]](), Map[String, String]())) {
       case ((passports, current), line) => if (line.length == 1 && line.head.isEmpty) {
-          (passports :+ current, HashMap())
+          (passports :+ current, Map())
         } else {
           (passports, current ++ line.map(_ split ":").map(v => v(0) -> v(1)))
         }
