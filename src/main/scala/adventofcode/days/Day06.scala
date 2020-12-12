@@ -8,10 +8,7 @@ object Day06 extends Day(6) {
 
   override def firstSolution = groups.map(_.flatten.distinct.length).sum
 
-  override def secondSolution = groups.map(_.foldLeft(null: Set[Char]) {
-    case (intersect, answer) => intersect match {
-      case null => answer.toSet
-      case _ => intersect.intersect(answer.toSet)
-    }
+  override def secondSolution = groups.map(_.map(_.toSet).reduce {
+    (answer1, answer2) => answer1.intersect(answer2)
   }).map(_.size).sum
 }
